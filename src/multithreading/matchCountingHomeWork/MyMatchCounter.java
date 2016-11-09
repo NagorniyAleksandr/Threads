@@ -40,7 +40,7 @@ public class MyMatchCounter implements Callable<Integer> {
             return 0;
         }
 
-        Future producerTask = producerThreadPool.submit(new FindFilesAndAddToQueueThread(directory));
+        //Future producerTask = producerThreadPool.submit(new FindFilesAndAddToQueueThread(directory));
 
         try {
             Thread.currentThread().sleep(1000);
@@ -69,13 +69,13 @@ public class MyMatchCounter implements Callable<Integer> {
 
         }
 
-        while (!producerTask.isDone()) {
+/*        while (!producerTask.isDone()) {
             try {
                 producerThreadPool.awaitTermination(500, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         producerThreadPool.shutdown();
         System.out.println("create signal for shutdowns producers, THREAD: "
                 + Thread.currentThread().getName());
@@ -117,34 +117,5 @@ public class MyMatchCounter implements Callable<Integer> {
         }
     }
 
-    private class FindFilesAndAddToQueueThread implements Runnable {
 
-        File root;
-
-        public FindFilesAndAddToQueueThread(File root) {
-            this.root = root;
-        }
-
-        @Override
-        public void run() {
-            if (root == null ||
-                    root.listFiles() == null ||
-                    root.listFiles().length == 0) {
-                return;
-            } else {
-                File[] files = root.listFiles();
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        producerThreadPool.submit(new FindFilesAndAddToQueueThread(file));
-                    } else {
-                        try {
-                            filesBuffer.put(file);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

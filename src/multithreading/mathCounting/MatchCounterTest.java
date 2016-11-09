@@ -1,7 +1,6 @@
 package multithreading.mathCounting;
 
 import java.io.File;
-import java.util.Scanner;
 
 /**
  * Created by Anna on 14.09.2016.
@@ -17,7 +16,7 @@ public class MatchCounterTest {
 
         long starTime = System.currentTimeMillis();
 
-        String directory = "D:\\Java\\ACO15\\src\\ua\\";
+        String directory = "/Users/aleksandrnagorniy/Documents/Java/IdeaProjects/";
         String keyword = "java";
         
         MatchCounter matchCounter = new MatchCounter(new File(directory), keyword);
